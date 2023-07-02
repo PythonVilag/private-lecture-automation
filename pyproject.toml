@@ -1,0 +1,96 @@
+# Build System
+[build-system]
+requires = ["setuptools"]
+
+# Project Metadata
+[project]
+name = "private_lecture_automation"
+version = "0.1.1"
+description = "Automation tools for private lecture management."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [{ name = "Daniel Mizsak", email = "info@pythonvilag.hu" }]
+keywords = [
+    "automation",
+    "calendar event",
+    "introduction email",
+    "private lecture",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Home Automation",
+]
+dependencies = ["icalendar==5.0.7", "python-dotenv==1.0.0"]
+[project.optional-dependencies]
+dev = [
+    "black==23.3.0",
+    "furo==2023.5.20",
+    "mypy==1.4.1",
+    "pre-commit==3.3.3",
+    "pytest-cov==4.1.0",
+    "pytest==7.4.0",
+    "ruff==0.0.275",
+    "sphinx-copybutton==0.5.2",
+    "sphinx==7.0.1",
+]
+[project.urls]
+Repository = "https://github.com/PythonVilag/private-lecture-automation"
+
+# Tools
+# Setup Tools
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Black
+[tool.black]
+line-length = 100
+
+# MyPy
+[tool.mypy]
+mypy_path = ["src", "tests"]
+exclude = ["src/docs"]
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+# Pytest
+[tool.pytest.ini_options]
+addopts = "--cov=private_lecture_automation"
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+# Ruff
+[tool.ruff]
+line-length = 100
+
+# Tox
+[tool.tox]
+legacy_tox_ini = """
+    [tox]
+    envlist = py311
+
+    [gh]
+    python =
+        3.11 = py311
+
+    [testenv]
+    setenv =
+        PYTHONPATH = {toxinidir}/src
+    deps =
+        mypy
+    commands = mypy src
+"""

@@ -1,0 +1,41 @@
+# Project
+encryption.key
+encrypt.sh
+data/students.json
+run.py
+
+# System
+.DS_Store
+
+# Packaging
+build/
+!/docs/build/
+dist/
+eggs/
+.eggs/
+sdist/
+wheels/
+*.egg-info/
+*.egg
+
+# Testing
+.tox
+.coverage
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# Python
+__pycache__/
+.ipynb_checkpoints
+*.egg-info/
+*.log
+*.py[cod]
+*$py.class
+
+# IDE
+.idea/
+.vscode/

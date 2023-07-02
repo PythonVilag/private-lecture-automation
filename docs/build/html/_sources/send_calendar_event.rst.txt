@@ -1,0 +1,42 @@
+Send Calendar Event
+===================
+
+Upon request the script sends out an email containing the calendar event of the next lecture for the client.
+
+
+Setting up student data
+-----------------------
+
+For the script an json object must be prepared that is used to contain information about the students.
+This file must be located at ```data/students.json``.
+
+The file is structured as follows:
+
+.. code-block:: JSON
+
+    {
+        "Arany Barna": {
+            "name": "Arany Barna",  // The name of the student
+            "email": "aranyb@gmail.com",  // The email address of the student
+            "content_link": "https://www.pythonvilag.hu",  // The link to where lesson specific content can be found (usually a Google Drive folder)
+            "day": "2",  // The day of the week when the lecture takes place (0: Monday, 1: Tuesday, ..., 6: Sunday)
+            "time": "1630",  // The time of the lecture in the format HHMM
+            "duration": "90",  // The duration of the lecture in minutes
+            "occasion_number": "3"  // The number of the next lecture
+        },
+    }
+
+
+Using Send Calendar Event
+-------------------------
+
+A simple example of using the `send_calendar_event` functionality:
+
+.. code-block:: python
+
+    from private_lecture_automation import send_calendar_event
+
+    send_calendar_event(
+        student_name="Arany Barna",  # The name of the student, must match the key in the json file
+        **kwargs: {"time": "1700"}  # For temporal changes the content of the json file can be overwritten
+    )
