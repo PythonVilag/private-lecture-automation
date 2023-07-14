@@ -11,6 +11,8 @@ Installing the package could be done by cloning the repository or via PyPI.
 .. code-block:: console
 
     git clone https://github.com/PythonVilag/private-lecture-automation.git
+    cd private-lecture-automation
+    pip install .
 
 or
 
@@ -21,12 +23,14 @@ or
 The main advantage of using the cloning solution is that you are provided with a ``/data`` folder
 that contains example files for the different functionalities.
 
+.. note
+
 
 Setting up necessary files
 --------------------------
 
 Currently all the available functionalities rely on sending out emails.
-To achieve this the necessary information must be provided to the package.
+Therefore, the necessary information must be provided to the package.
 
 The recommended way of doing this is by creating a ``.env`` file in the root directory of the package.
 This file should look like this:
@@ -40,9 +44,5 @@ This file should look like this:
 
 In case you are using a different email provider, you should change the ``HOST`` and ``PORT`` variables accordingly.
 
-
-Other configurations
---------------------
-
-Different functionalities may require other files and configurations.
+Please keep in mind, that different functionalities may require other files and configurations.
 These are described in the corresponding sections.

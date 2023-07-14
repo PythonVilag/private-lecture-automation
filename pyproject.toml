@@ -1,11 +1,12 @@
 # Build System
 [build-system]
-requires = ["setuptools"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 # Project Metadata
 [project]
 name = "private_lecture_automation"
-version = "0.1.1"
+version = "0.2.0"
 description = "Automation tools for private lecture management."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -29,27 +30,31 @@ classifiers = [
 dependencies = ["icalendar==5.0.7", "python-dotenv==1.0.0"]
 [project.optional-dependencies]
 dev = [
-    "black==23.3.0",
-    "furo==2023.5.20",
-    "mypy==1.4.1",
-    "pre-commit==3.3.3",
-    "pytest-cov==4.1.0",
-    "pytest==7.4.0",
-    "ruff==0.0.275",
-    "sphinx-copybutton==0.5.2",
-    "sphinx==7.0.1",
+    "black",
+    "furo",
+    "hatch",
+    "mypy",
+    "pre-commit",
+    "pytest-cov",
+    "pytest",
+    "ruff",
+    "sphinx-copybutton",
+    "sphinx",
 ]
 [project.urls]
 Repository = "https://github.com/PythonVilag/private-lecture-automation"
 
 # Tools
-# Setup Tools
-[tool.setuptools.packages.find]
-where = ["src"]
-
 # Black
 [tool.black]
 line-length = 100
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src/private_lecture_automation", "data"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src" = ""
+"data" = "private_lecture_automation/data"
 
 # MyPy
 [tool.mypy]

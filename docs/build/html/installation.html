@@ -200,6 +200,8 @@
 <h2>Getting the source code<a class="headerlink" href="#getting-the-source-code" title="Permalink to this heading">#</a></h2>
 <p>Installing the package could be done by cloning the repository or via PyPI.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/PythonVilag/private-lecture-automation.git</span>
+<span class="go">cd private-lecture-automation</span>
+<span class="go">pip install .</span>
 </pre></div>
 </div>
 <p>or</p>
@@ -212,7 +214,7 @@ that contains example files for the different functionalities.</p>
 <section id="setting-up-necessary-files">
 <h2>Setting up necessary files<a class="headerlink" href="#setting-up-necessary-files" title="Permalink to this heading">#</a></h2>
 <p>Currently all the available functionalities rely on sending out emails.
-To achieve this the necessary information must be provided to the package.</p>
+Therefore, the necessary information must be provided to the package.</p>
 <p>The recommended way of doing this is by creating a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file in the root directory of the package.
 This file should look like this:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">EMAIL_ADDRESS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>your@email.com
@@ -222,10 +224,7 @@ This file should look like this:</p>
 </pre></div>
 </div>
 <p>In case you are using a different email provider, you should change the <code class="docutils literal notranslate"><span class="pre">HOST</span></code> and <code class="docutils literal notranslate"><span class="pre">PORT</span></code> variables accordingly.</p>
-</section>
-<section id="other-configurations">
-<h2>Other configurations<a class="headerlink" href="#other-configurations" title="Permalink to this heading">#</a></h2>
-<p>Different functionalities may require other files and configurations.
+<p>Please keep in mind, that different functionalities may require other files and configurations.
 These are described in the corresponding sections.</p>
 </section>
 </section>
@@ -259,7 +258,7 @@ These are described in the corresponding sections.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2023 Dániel Lajos Mizsák
+                Copyright &#169; 2023 Daniel Mizsak
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
 
@@ -288,7 +287,6 @@ These are described in the corresponding sections.</p>
 <li><a class="reference internal" href="#">Installation</a><ul>
 <li><a class="reference internal" href="#getting-the-source-code">Getting the source code</a></li>
 <li><a class="reference internal" href="#setting-up-necessary-files">Setting up necessary files</a></li>
-<li><a class="reference internal" href="#other-configurations">Other configurations</a></li>
 </ul>
 </li>
 </ul>

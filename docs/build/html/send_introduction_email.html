@@ -214,9 +214,12 @@ appropriate <code class="docutils literal notranslate"><span class="pre">&lt;img
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">private_lecture_automation</span> <span class="kn">import</span> <span class="n">send_introduction_email</span>
 
 <span class="n">send_introduction_email</span><span class="p">(</span>
-    <span class="n">recipient_email</span><span class="o">=</span><span class="s2">&quot;aranyb@gmail.com&quot;</span><span class="p">,</span>  <span class="c1"># email address of the recipient</span>
-    <span class="n">included_images</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;logo.png&quot;</span><span class="p">],</span>  <span class="c1"># images included in the email</span>
-    <span class="n">values_to_replace</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;Arany Barna&quot;</span><span class="p">},</span>  <span class="c1"># values to replaced</span>
+    <span class="n">recipient_email</span><span class="o">=</span><span class="s2">&quot;john.doe@example.com&quot;</span><span class="p">,</span>  <span class="c1"># email address of the recipient</span>
+    <span class="n">included_images</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;logo.png&quot;</span><span class="p">],</span>  <span class="c1"># images included in the email</span>
+    <span class="n">values_to_replace</span><span class="o">=</span><span class="p">{</span>  <span class="c1"># values that will be replaced in the email template</span>
+        <span class="s2">&quot;NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PRICE&quot;</span><span class="p">:</span> <span class="s2">&quot;10 USD&quot;</span><span class="p">,</span>
+    <span class="p">},</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -252,7 +255,7 @@ appropriate <code class="docutils literal notranslate"><span class="pre">&lt;img
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2023 Dániel Lajos Mizsák
+                Copyright &#169; 2023 Daniel Mizsak
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
 

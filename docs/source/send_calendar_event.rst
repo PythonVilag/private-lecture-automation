@@ -37,7 +37,7 @@ A simple example of using the `send_calendar_event` functionality:
     from private_lecture_automation import send_calendar_event
 
     send_calendar_event(
-        student_name="Arany Barna",  # Student reference, must match key in the json file
+        student_name="John Doe",  # Student reference, must match key in the json file
         time="1700",  # Optional: temporal change in the lecture time
         duration="60",  # Optional: temporal change in the lecture duration
     )

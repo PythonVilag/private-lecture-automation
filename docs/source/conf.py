@@ -3,15 +3,16 @@ Configuration file for the Sphinx documentation builder.
 For the full list of built-in configuration values, see the documentation:
 https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-@author "Dániel Lajos Mizsák" <info@pythonvilag.hu>
+@author "Daniel Mizsak" <info@pythonvilag.hu>
+sphinx-build -b html docs/source/ docs/build/html
 """
 
 from private_lecture_automation import __version__
 
 # Project
 project = "private-lecture-automation"
-copyright = "2023 Dániel Lajos Mizsák"
-author = "Dániel Lajos Mizsák"
+copyright = "2023 Daniel Mizsak"
+author = "Daniel Mizsak"
 version = __version__
 
 # General

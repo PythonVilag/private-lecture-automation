@@ -30,7 +30,10 @@ A simple example of using the `send_introduction_email` functionality:
     from private_lecture_automation import send_introduction_email
 
     send_introduction_email(
-        recipient_email="aranyb@gmail.com",  # Email address of the recipient
-        included_images=["logo.png"],  # Images included in the email
-        values_to_replace={"NAME": "Arany Barna"},  # Values to replaced in the email
+        recipient_email="john.doe@example.com",  # email address of the recipient
+        included_images=["logo.png"],  # images included in the email
+        values_to_replace={  # values that will be replaced in the email template
+            "NAME": "John Doe",
+            "PRICE": "10 USD",
+        },
     )

@@ -1,7 +1,7 @@
 """
 All the functions that are used by the private lecture automation package.
 
-@author "Dániel Lajos Mizsák" <info@pythonvilag.hu>
+@author "Daniel Mizsak" <info@pythonvilag.hu>
 """
 
 from __future__ import annotations
@@ -34,6 +34,9 @@ class ConfigData:
     port: int
 
 
+data_folder = os.path.join(os.path.dirname(__file__), "data")
+
+
 def send_introduction_email(
     recipient_email: str,
     included_images: list[str] | None = None,
@@ -59,7 +62,9 @@ def send_introduction_email(
     message["From"] = formataddr((str(Header("PythonVilág", "utf-8")), config_data.email_address))
     message["To"] = recipient_email
 
-    with open("data/introduction.html", mode="r", encoding="utf-8") as message_file:
+    print(f"{data_folder}/introduction.html")
+
+    with open(f"{data_folder}/introduction.html", mode="r", encoding="utf-8") as message_file:
         message_body = message_file.read()
 
     if values_to_replace is not None:
@@ -76,7 +81,7 @@ def send_introduction_email(
 
     try:
         for image_name in included_images:
-            with open(f"data/{image_name}", mode="rb") as img_file:
+            with open(f"{data_folder}/{image_name}", mode="rb") as img_file:
                 message.get_payload()[0].add_related(
                     img_file.read(), "image", "png", cid=included_image_ids[image_name]
                 )
@@ -93,7 +98,7 @@ def check_calendar_event(number_of_days: int = 5) -> None:
     Args:
         number_of_days (int, optional): The number of days we check ahead. Defaults to 5.
     """
-    with open("data/students.json", mode="r", encoding="utf-8") as students_file:
+    with open(f"{data_folder}/students.json", mode="r", encoding="utf-8") as students_file:
         students_data = json.load(students_file)
 
     for student_name, student_data in students_data.items():
@@ -189,7 +194,7 @@ def _load_student_data(student_name: str, increment_occasion_number: bool = True
     Returns:
         dict[str, str]: _description_
     """
-    with open("data/students.json", "r+", encoding="utf8") as students_file:
+    with open(f"{data_folder}/students.json", "r+", encoding="utf8") as students_file:
         students = json.load(students_file)
         student_data = dict(students[student_name])
 
