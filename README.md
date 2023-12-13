@@ -1,9 +1,13 @@
-## <div align="center"> Private Lecture Automation</div>
-<br>
+## <div align="center"> ⚙️ private-lecture-automation</div>
 
-[![docs](https://github.com/PythonVilag/private-lecture-automation/actions/workflows/static.yaml/badge.svg)](https://github.com/PythonVilag/private-lecture-automation/actions/workflows/static.yaml)
+<div align="center">
+<a href="https://github.com/PythonVilag/private-lecture-automation/actions/workflows/static.yaml" target="_blank"><img src="https://github.com/PythonVilag/private-lecture-automation/actions/workflows/static.yaml/badge.svg" alt="build status"></a>
+<a href="https://results.pre-commit.ci/latest/github/PythonVilag/private-lecture-automation/main" target="_blank"><img src="https://results.pre-commit.ci/badge/github/PythonVilag/private-lecture-automation/main.svg" alt="pre-commit.ci status"></a>
+<a href="ttps://img.shields.io/github/license/PythonVilag/private-lecture-automation" target="_blank"><img src="https://img.shields.io/github/license/PythonVilag/private-lecture-automation" alt="license"></a>
+</div>
 
 
+## Overview
 Private Lecture Automation contains tools that make managing private lectures easier.
 
 These tools include:
