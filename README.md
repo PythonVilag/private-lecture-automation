@@ -1,7 +1,7 @@
 ## <div align="center"> ⚙️ private-lecture-automation</div>
 
 <div align="center">
-<a href="https://github.com/PythonVilag/private-lecture-automation/actions/workflows/static.yaml" target="_blank"><img src="https://github.com/PythonVilag/private-lecture-automation/actions/workflows/static.yaml/badge.svg" alt="build status"></a>
+<a href='https://private-lecture-automation.readthedocs.io/en/latest/?badge=latest'><img src='https://readthedocs.org/projects/private-lecture-automation/badge/?version=latest' alt='docs status' /></a>
 <a href="https://results.pre-commit.ci/latest/github/PythonVilag/private-lecture-automation/main" target="_blank"><img src="https://results.pre-commit.ci/badge/github/PythonVilag/private-lecture-automation/main.svg" alt="pre-commit.ci status"></a>
 <a href="ttps://img.shields.io/github/license/PythonVilag/private-lecture-automation" target="_blank"><img src="https://img.shields.io/github/license/PythonVilag/private-lecture-automation" alt="license"></a>
 </div>
