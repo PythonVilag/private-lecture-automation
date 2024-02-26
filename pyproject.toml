@@ -28,17 +28,8 @@ classifiers = [
 ]
 dependencies = ["icalendar==5.0.11", "python-dotenv==1.0.1"]
 [project.optional-dependencies]
-dev = [
-    "furo",
-    "mypy",
-    "pre-commit",
-    "pytest-cov",
-    "pytest",
-    "ruff",
-    "sphinx-copybutton",
-    "sphinx",
-    "tox",
-]
+dev = ["mypy", "pre-commit", "pytest-cov", "pytest", "ruff", "tox"]
+docs = ["furo", "sphinx", "sphinx-copybutton"]
 [project.urls]
 Repository = "https://github.com/PythonVilag/private-lecture-automation"
 
