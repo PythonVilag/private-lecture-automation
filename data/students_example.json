@@ -1,0 +1,20 @@
+{
+    "John Doe": {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "content_link": "https://www.pythonvilag.hu/",
+        "day": "2",
+        "time": "1630",
+        "duration": "90",
+        "occasion_number": "6"
+    },
+    "Jane Smith": {
+        "name": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "content_link": "https://www.pythonvilag.hu/",
+        "day": "4",
+        "time": "1830",
+        "duration": "60",
+        "occasion_number": "9"
+    }
+}

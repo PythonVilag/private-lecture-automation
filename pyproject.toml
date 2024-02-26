@@ -1,0 +1,114 @@
+# Build System
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# Project Metadata
+[project]
+name = "private-lecture-automation"
+version = "0.2.0"
+description = "Automation tools for private lecture management."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Daniel Mizsak", email = "info@pythonvilag.hu" }]
+keywords = [
+    "automation",
+    "calendar event",
+    "introduction email",
+    "private lecture",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Home Automation",
+]
+dependencies = ["icalendar==5.0.11", "python-dotenv==1.0.1"]
+[project.optional-dependencies]
+dev = [
+    "furo",
+    "mypy",
+    "pre-commit",
+    "pytest-cov",
+    "pytest",
+    "ruff",
+    "sphinx-copybutton",
+    "sphinx",
+    "tox",
+]
+[project.urls]
+Repository = "https://github.com/PythonVilag/private-lecture-automation"
+
+# Tools
+# Hatch
+[tool.hatch.build.targets.wheel]
+only-include = ["src/private_lecture_automation", "data"]
+[tool.hatch.build.targets.wheel.sources]
+"src" = ""
+"data" = "private_lecture_automation/data"
+
+# MyPy
+[tool.mypy]
+exclude = ["^tests/"]
+ignore_missing_imports = true
+pretty = true
+show_column_numbers = true
+show_error_context = true
+strict = true
+warn_unreachable = true
+warn_unused_ignores = true
+
+# Pytest
+[tool.pytest.ini_options]
+addopts = "--cov=private_lecture_automation"
+testpaths = ["tests"]
+
+# Ruff
+[tool.ruff]
+src = ["src", "tests"]
+line-length = 120
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D203",  # one-blank-line-before-class
+    "D212",  # multi-line-summary-first-line
+    "FIX",   # flake8-fixme
+    "INP",   # flake8-no-pep420
+    "S104",  # hardcoded-bind-all-interfaces
+    "TD002", # missing-todo-author
+    "TD003", # missing-todo-link
+]
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = [
+    "D104", # undocumented-public-package
+]
+"tests/**/*.py" = [
+    "ANN001",  # missing-type-function-argument
+    "ANN201",  # missing-return-type-undocumented-public-function
+    "D",       # pydocstyle
+    "PLR2004", # magic-value-comparison
+    "S101",    # assert
+]
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+# Tox
+[tool.tox]
+legacy_tox_ini = """
+    [tox]
+    envlist = py310
+
+    [gh]
+    python =
+        3.10 = py310
+
+    [testenv]
+    setenv =
+        PYTHONPATH = {toxinidir}/src
+    deps =
+        mypy
+    commands = mypy src
+"""

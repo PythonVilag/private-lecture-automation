@@ -1,0 +1,37 @@
+name: calendar events
+on:
+  schedule:
+    - cron: "0 12 * * *"
+
+jobs:
+  send-calendar-events:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v4
+
+      - name: Decrypt students.json.
+        run: >
+          openssl enc -d -aes-256-cbc -in data/students.json.enc -out data/students.json -k "${{ secrets.ENCRYPTION_KEY }}" -pbkdf2
+
+      - name: Set up python.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Upgrade pip.
+        run: >
+          python -m pip install --upgrade pip
+
+      - name: Install package locally.
+        run: >
+          pip install .
+
+      - name: Sends out calendar events.
+        run: >
+          python -c "import private_lecture_automation; private_lecture_automation.check_calendar_event()"
+        env:
+          EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          HOST: ${{ secrets.HOST }}
+          PORT: ${{ secrets.PORT }}
