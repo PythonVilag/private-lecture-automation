@@ -90,7 +90,7 @@ convention = "google"
 [tool.tox]
 legacy_tox_ini = """
     [tox]
-    envlist = py310
+    envlist = py310,docs
 
     [gh]
     python =
@@ -102,4 +102,11 @@ legacy_tox_ini = """
     deps =
         mypy
     commands = mypy src
+
+    [testenv:docs]
+    extras =
+        docs
+    commands =
+        sphinx-build -d "{envtmpdir}{/}doctree" docs "{toxworkdir}{/}docs_out" --color -b html
+
 """
