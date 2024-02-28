@@ -1,5 +1,6 @@
 """
 Configuration file for the Sphinx documentation builder.
+
 For the full list of built-in configuration values, see the documentation:
 https://www.sphinx-doc.org/en/master/usage/configuration.html
 
@@ -7,12 +8,14 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 sphinx-build -b html docs/source/ docs/build/html
 """
 
+from datetime import datetime, timezone
+
 from private_lecture_automation import __version__
 
 # Project
-project = "private-lecture-automation"
-copyright = "2023 Daniel Mizsak"
 author = "Daniel Mizsak"
+project = "private-lecture-automation"
+copyright = f"{datetime.now(tz=timezone.utc).year} {author}"  # noqa: A001
 version = __version__
 
 # General

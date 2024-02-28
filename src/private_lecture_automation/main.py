@@ -12,13 +12,14 @@ import smtplib
 import textwrap
 from copy import deepcopy
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from email.header import Header
 from email.message import EmailMessage
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formataddr, make_msgid
+from pathlib import Path
 
 from dotenv import dotenv_values
 from icalendar import Calendar, Event
@@ -34,7 +35,7 @@ class ConfigData:
     port: int
 
 
-data_folder = os.path.join(os.path.dirname(__file__), "data")
+data_folder = Path(__file__).parent / "data"
 
 
 def send_introduction_email(
@@ -62,9 +63,7 @@ def send_introduction_email(
     message["From"] = formataddr((str(Header("PythonVilág", "utf-8")), config_data.email_address))
     message["To"] = recipient_email
 
-    print(f"{data_folder}/introduction.html")
-
-    with open(f"{data_folder}/introduction.html", mode="r", encoding="utf-8") as message_file:
+    with Path(f"{data_folder}/introduction.html").open(encoding="utf-8") as message_file:
         message_body = message_file.read()
 
     if values_to_replace is not None:
@@ -79,9 +78,12 @@ def send_introduction_email(
 
     try:
         for image_name in included_images:
-            with open(f"{data_folder}/{image_name}", mode="rb") as img_file:
+            with Path(f"{data_folder}/{image_name}").open(mode="rb") as img_file:
                 message.get_payload()[0].add_related(
-                    img_file.read(), "image", "png", cid=included_image_ids[image_name]
+                    img_file.read(),
+                    "image",
+                    "png",
+                    cid=included_image_ids[image_name],
                 )
     except KeyError:
         pass
@@ -90,18 +92,19 @@ def send_introduction_email(
 
 
 def check_calendar_event(number_of_days: int = 5) -> None:
-    """Checks if there is a scheduled lesson in the next number_of_days days and if so, it sends
-    out a calendar event to the client.
+    """Checks if there is a scheduled lesson in the next number_of_days days.
+
+    If there is, it sends out a calendar event to the client.
 
     Args:
         number_of_days (int, optional): The number of days we check ahead. Defaults to 5.
     """
-    with open(f"{data_folder}/students.json", mode="r", encoding="utf-8") as students_file:
+    with Path(f"{data_folder}/students.json").open(encoding="utf-8") as students_file:
         students_data = json.load(students_file)
 
     for student_name, student_data in students_data.items():
         day = int(student_data["day"])
-        today = datetime.now()
+        today = datetime.now(timezone.utc)
         days_ahead = day - today.weekday()
         if days_ahead <= 0:
             days_ahead += 7
@@ -111,8 +114,9 @@ def check_calendar_event(number_of_days: int = 5) -> None:
 
 
 def send_calendar_event(student_name: str, **kwargs: str) -> None:
-    """Sends out a calendar event containing a meeting invitation for the next lesson of the
-    student. It is also possible to temporarily overwrite some details of the next lesson.
+    """Sends out a calendar event containing a meeting invitation for the next lesson of the student.
+
+    It is also possible to temporarily overwrite some details of the next lesson.
 
     Args:
         student_name (str): The name of the student stored in the students.json file.
@@ -143,7 +147,7 @@ def send_calendar_event(student_name: str, **kwargs: str) -> None:
 
         Üdvözlettel,
         Dani
-        """
+        """,
     )
     text_part = MIMEText(message_body, "plain")
     message.attach(text_part)
@@ -155,8 +159,9 @@ def send_calendar_event(student_name: str, **kwargs: str) -> None:
 
 
 def _load_config() -> ConfigData:
-    """Tries to load the configuration data from the .env file. If it fails, it tries to load the
-    configuration data from the environment variables.
+    """Tries to load the configuration data from the .env file.
+
+    If it fails, it tries to load the configuration data from the environment variables.
 
     Raises:
         KeyError: If the configuration data is missing from the .env file and the environment.
@@ -175,12 +180,13 @@ def _load_config() -> ConfigData:
             port=int(str(config["PORT"])),
         )
     except KeyError as exception:
-        raise KeyError("Config variable is missing. Check .env file or add environment variables.") from exception
+        error_message = "Config variable is missing. Check .env file or add environment variables."
+        raise KeyError(error_message) from exception
 
     return config_data
 
 
-def _load_student_data(student_name: str, increment_occasion_number: bool = True) -> dict[str, str]:
+def _load_student_data(student_name: str, increment_occasion_number: bool = True) -> dict[str, str]:  # noqa: FBT001, FBT002
     """_summary_.
 
     Args:
@@ -190,7 +196,7 @@ def _load_student_data(student_name: str, increment_occasion_number: bool = True
     Returns:
         dict[str, str]: _description_
     """
-    with open(f"{data_folder}/students.json", "r+", encoding="utf8") as students_file:
+    with Path(f"{data_folder}/students.json").open("r+", encoding="utf8") as students_file:
         students = json.load(students_file)
         student_data = dict(students[student_name])
 
@@ -232,7 +238,7 @@ def _create_calendar_event(student_data: dict[str, str], email_address: str) -> 
             f"""\
             A korábbi órák tartalmát megtalálod az alábbi linken:
 
-            {student_data["content_link"]}"""
+            {student_data["content_link"]}""",
         ),
     )
 
@@ -241,7 +247,7 @@ def _create_calendar_event(student_data: dict[str, str], email_address: str) -> 
     hour = int(student_data["time"][:2])
     minute = int(student_data["time"][2:])
     duration = int(student_data["duration"])
-    today = datetime.now()
+    today = datetime.now(timezone.utc)
 
     days_ahead = day - today.weekday()
     if days_ahead <= 0:
