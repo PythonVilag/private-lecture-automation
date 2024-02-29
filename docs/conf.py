@@ -8,14 +8,14 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 sphinx-build -b html docs/source/ docs/build/html
 """
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from private_lecture_automation import __version__
 
 # Project
 author = "Daniel Mizsak"
 project = "private-lecture-automation"
-copyright = f"{datetime.now(tz=timezone.utc).year} {author}"  # noqa: A001
+copyright = f"{datetime.now(tz=UTC).year} {author}"  # noqa: A001
 version = __version__
 
 # General

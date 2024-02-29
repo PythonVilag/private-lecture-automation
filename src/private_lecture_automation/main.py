@@ -12,7 +12,7 @@ import smtplib
 import textwrap
 from copy import deepcopy
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from email.header import Header
 from email.message import EmailMessage
 from email.mime.application import MIMEApplication
@@ -104,7 +104,7 @@ def check_calendar_event(number_of_days: int = 5) -> None:
 
     for student_name, student_data in students_data.items():
         day = int(student_data["day"])
-        today = datetime.now(timezone.utc)
+        today = datetime.now(tz=UTC)
         days_ahead = day - today.weekday()
         if days_ahead <= 0:
             days_ahead += 7
@@ -247,7 +247,7 @@ def _create_calendar_event(student_data: dict[str, str], email_address: str) -> 
     hour = int(student_data["time"][:2])
     minute = int(student_data["time"][2:])
     duration = int(student_data["duration"])
-    today = datetime.now(timezone.utc)
+    today = datetime.now(tz=UTC)
 
     days_ahead = day - today.weekday()
     if days_ahead <= 0:

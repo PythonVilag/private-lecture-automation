@@ -1,11 +1,13 @@
-name: calendar events
+name: calendar-event
 on:
   schedule:
     - cron: "0 12 * * *"
 
 jobs:
-  send-calendar-events:
+  send-calendar-event:
+    if: false
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v4
@@ -14,10 +16,10 @@ jobs:
         run: >
           openssl enc -d -aes-256-cbc -in data/students.json.enc -out data/students.json -k "${{ secrets.ENCRYPTION_KEY }}" -pbkdf2
 
-      - name: Set up python.
+      - name: Set up Python.
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Upgrade pip.
         run: >
@@ -27,7 +29,7 @@ jobs:
         run: >
           pip install .
 
-      - name: Sends out calendar events.
+      - name: Send out calendar event.
         run: >
           python -c "import private_lecture_automation; private_lecture_automation.check_calendar_event()"
         env:
