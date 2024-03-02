@@ -1,0 +1,40 @@
+name: pypi-publish
+on:
+  push:
+    tags: ["*"]
+
+jobs:
+  pypi-publish:
+    if: false
+    runs-on: ubuntu-latest
+
+    environment:
+      name: release
+      url: https://pypi.org/p/private_lecture_automation/
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v4
+
+      - name: Set up Python.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Upgrade pip.
+        run: >
+          python -m pip install --upgrade pip
+
+      - name: Install pypi build
+        run: >
+          python -m pip install build --user
+
+      - name: Build package.
+        run: >
+          python -m build
+
+      - name: Publish to PyPI.
+        uses: pypa/gh-action-pypi-publish@v1.8.12
