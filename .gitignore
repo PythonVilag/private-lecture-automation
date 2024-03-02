@@ -7,7 +7,6 @@ encrypt.sh
 
 # Packaging
 build/
-!/docs/build/
 dist/
 eggs/
 .eggs/

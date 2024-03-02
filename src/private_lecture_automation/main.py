@@ -1,5 +1,5 @@
 """
-All the functions that are used by the private lecture automation package.
+Private Lecture Automation package content.
 
 @author "Daniel Mizsak" <info@pythonvilag.hu>
 """
@@ -43,18 +43,18 @@ def send_introduction_email(
     included_images: list[str] | None = None,
     values_to_replace: dict[str, str] | None = None,
 ) -> None:
-    """Sends out an email to the recipient with the introduction email template.
+    """Send out an email to the recipient with the introduction email template.
 
     Args:
         recipient_email (str): The email address of the recipient.
         included_images (list[str] | None, optional): A list of image names that are included in
         the email. Defaults to None.
-        values_to_replace (dict[str, str] | None, optional): Key-value pairs defined in the form
-        of a dictionary, there they key elements are replaced in the html template with the values.
+        values_to_replace (dict[str, str] | None, optional): Keys to be replaced in the HTML template with the values.
         Defaults to None.
     """
     config_data = _load_config()
-    if included_images is None:
+
+    if not included_images:
         included_images = []
     included_image_ids = {}
 
@@ -66,7 +66,7 @@ def send_introduction_email(
     with Path(f"{data_folder}/introduction.html").open(encoding="utf-8") as message_file:
         message_body = message_file.read()
 
-    if values_to_replace is not None:
+    if values_to_replace:
         for key, value in values_to_replace.items():
             message_body = message_body.replace(f"[{key}]", value)
 
@@ -78,21 +78,21 @@ def send_introduction_email(
 
     try:
         for image_name in included_images:
-            with Path(f"{data_folder}/{image_name}").open(mode="rb") as img_file:
+            with Path(f"{data_folder}/{image_name}").open(mode="rb") as image_file:
                 message.get_payload()[0].add_related(
-                    img_file.read(),
+                    image_file.read(),
                     "image",
                     "png",
                     cid=included_image_ids[image_name],
                 )
     except KeyError:
-        pass
+        print(f"Image {image_name} could not be found and is not included in the email.")  # noqa: T201
 
     _send_email(config_data, message)
 
 
 def check_calendar_event(number_of_days: int = 5) -> None:
-    """Checks if there is a scheduled lesson in the next number_of_days days.
+    """Check if there is a scheduled lesson in the next number_of_days days.
 
     If there is, it sends out a calendar event to the client.
 
@@ -106,22 +106,20 @@ def check_calendar_event(number_of_days: int = 5) -> None:
         day = int(student_data["day"])
         today = datetime.now(tz=UTC)
         days_ahead = day - today.weekday()
-        if days_ahead <= 0:
-            days_ahead += 7
+        days_ahead = days_ahead if days_ahead > 0 else days_ahead + 7
 
         if days_ahead == number_of_days:
             send_calendar_event(student_name)
 
 
 def send_calendar_event(student_name: str, **kwargs: str) -> None:
-    """Sends out a calendar event containing a meeting invitation for the next lesson of the student.
+    """Send out a calendar event containing the meeting invitation for the next lesson of the student.
 
     It is also possible to temporarily overwrite some details of the next lesson.
 
     Args:
         student_name (str): The name of the student stored in the students.json file.
-        **kwargs (str): Key-value pairs defined in the form of a dictionary where if the key is
-        present in the student's data, it will be temporarily overwritten with the value.
+        **kwargs (str): Keys present in the student's data will be temporarily overwritten with the value.
     """
     config_data = _load_config()
 
@@ -159,9 +157,7 @@ def send_calendar_event(student_name: str, **kwargs: str) -> None:
 
 
 def _load_config() -> ConfigData:
-    """Tries to load the configuration data from the .env file.
-
-    If it fails, it tries to load the configuration data from the environment variables.
+    """Load configurations from the .env file or environment variables.
 
     Raises:
         KeyError: If the configuration data is missing from the .env file and the environment.
@@ -187,14 +183,15 @@ def _load_config() -> ConfigData:
 
 
 def _load_student_data(student_name: str, increment_occasion_number: bool = True) -> dict[str, str]:  # noqa: FBT001, FBT002
-    """_summary_.
+    """Load the student's data from the students.json file.
 
     Args:
-        student_name (str): _description_
-        increment_occasion_number (bool, optional): _description_. Defaults to True.
+        student_name (str): The key of the student in the students.json file.
+        increment_occasion_number (bool, optional): If True, the occasion number will be incremented by 1 in
+        the students.json file. Defaults to True.
 
     Returns:
-        dict[str, str]: _description_
+        dict[str, str]: The student's data from the file.
     """
     with Path(f"{data_folder}/students.json").open("r+", encoding="utf8") as students_file:
         students = json.load(students_file)
@@ -212,14 +209,14 @@ def _load_student_data(student_name: str, increment_occasion_number: bool = True
 
 
 def _create_calendar_event(student_data: dict[str, str], email_address: str) -> MIMEApplication:
-    """_summary_.
+    """Create a calendar event for the student's next lesson.
 
     Args:
-        student_data (dict[str, str]): _description_
-        email_address (str): _description_
+        student_data (dict[str, str]): The student's data.
+        email_address (str): The email address of the sender.
 
     Returns:
-        MIMEApplication: _description_
+        MIMEApplication: The calendar event as an attachment.
     """
     # Event
     event = Event()
@@ -275,11 +272,11 @@ def _create_calendar_event(student_data: dict[str, str], email_address: str) -> 
 
 
 def _send_email(config_data: ConfigData, message: EmailMessage | MIMEMultipart) -> None:
-    """_summary_.
+    """Send out an email with the given message.
 
     Args:
-        config_data (ConfigData): _description_
-        message (EmailMessage | MIMEMultipart): _description_
+        config_data (ConfigData): Configuration data of the sender's email server.
+        message (EmailMessage | MIMEMultipart): The content of the email to be sent.
     """
     with smtplib.SMTP_SSL(config_data.host, config_data.port) as smtp:
         smtp.login(config_data.email_address, config_data.email_password)
